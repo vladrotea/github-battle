@@ -120,6 +120,19 @@ a {
   margin: 10px auto;
 }
 
+.reset {
+    border: none;
+    background: transparent;
+    color: #d0021b;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.reset:hover {
+    cursor: pointer;
+}
+
 .button:hover:enabled {
   background: linear-gradient(#1a1a1a,#0a0a0a);
   color: #fff;
