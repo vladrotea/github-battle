@@ -1,6 +1,6 @@
 var axios = require('axios')
 
-var params = '?' //client_id=" + id + "&client_secret=" + sec'
+var params = '' //client_id=" + id + "&client_secret=" + sec'
 
 function getProfile (username) {
   return axios.get('https://api.github.com/users/' + username + params)
@@ -10,7 +10,7 @@ function getProfile (username) {
 }
 
 function getRepos (username) {
-  return axios.get('https://api.github.com/users/' + username + '/repos' + params + '&per_page=100')
+  return axios.get('https://api.github.com/users/' + username + '/repos' + params + '?per_page=100')
 }
 
 function getStarCount (repos) {
@@ -21,13 +21,14 @@ function getStarCount (repos) {
 
 function calculateScore(profile, repos) {
   var followers = profile.followers;
-  var totalStart = getStarCount(repos);
+  var totalStars = getStarCount(repos);
 
-  return (followes * 3) + totalStars;
+  return (followers * 3) + totalStars;
 }
 
 function handleError(error) {
   console.warn(error)
+  return null;
 }
 
 function getUserData(player) {
@@ -53,7 +54,7 @@ function sortPlayers (players) {
 
 module.exports = {
   battle: function(players) {
-    axios.all(players.map(getUserData))
+    return axios.all(players.map(getUserData))
       .then(sortPlayers)
       .catch(handleError)
   },
