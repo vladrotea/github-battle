@@ -1,31 +1,32 @@
-var React = require('react')
-var PropTypes = require('prop-types')
-var api = require('../utils/api')
-var Loading = require('./Loading')
+const React = require('react')
+const PropTypes = require('prop-types')
+const api = require('../utils/api')
+const Loading = require('./Loading')
 
-function SelectLanguage(props) {
-  var languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+function SelectLanguage({ onClick, selectedLanguage }) {
+  const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
 
   return (
     <ul className='languages'>
-      { languages.map( function(lang) {
+      { languages.map((lang) => {
         return (
           <li
             key={lang}
-            onClick={props.onClick.bind(null, lang)}
-            style={lang === props.selectedLanguage ? { color: '#d0021b'} : null }>
+            onClick={() => onClick(lang)}
+            style={lang === selectedLanguage ? { color: '#d0021b'} : null }>
               {lang}
           </li>
         )
-      }, this)}
+      }
+      )}
     </ul>
   )
 }
 
-function RepoGrid (props) {
+function RepoGrid ({ repos }) {
   return (
     <ul className='popular-list'>
-      {props.repos.map(function (repo, index) {
+      {repos.map((repo, index) => {
         return (
           <li key={repo.name} className='popular-item'>
             <div className='popular-rank'>#{index + 1}</div>
@@ -59,6 +60,7 @@ SelectLanguage.propTypes = {
 class Popular extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       selectedLanguage: 'All',
       repos: null
@@ -72,33 +74,29 @@ class Popular extends React.Component {
   }
 
   updateLanguage(lang) {
-    this.setState(function () {
-      return {
+    this.setState(() => ({
         selectedLanguage: lang,
         repos: null,
-      }
-    });
+      })
+    )
 
     api.fetchPopularRepos(lang)
-      .then(function (response) {
-        this.setState(function () {
-          return {
-            repos: response,
-          }
-        })
-      }.bind(this))
+      .then((repos) => {
+        this.setState(() => ({ repos }))
+      })
   }
 
   render() {
+    const { selectedLanguage, repos } = this.state
     return (
       <div>
       <SelectLanguage
         onClick={this.updateLanguage}
-        selectedLanguage={this.state.selectedLanguage}
+        selectedLanguage={selectedLanguage}
       />
-      {!this.state.repos
+      {!repos
           ? <Loading/>
-        : <RepoGrid repos={this.state.repos} />
+        : <RepoGrid repos={repos} />
       }
       </div>
     )
