@@ -28,8 +28,8 @@ class Loading extends React.Component {
     const stopper = text + '...'
 
     this.interval = window.setInterval(() => {
-      text === stopper
-        ? this.setState(() => ({ text }))
+      this.state.text === stopper
+        ? this.setState(() => ({ text: this.props.text }))
         : this.setState((prevState) => ({ text: prevState.text + '.' }))
     }, speed)
   }
