@@ -1,3 +1,8 @@
-## Try it out:
+Battle in popularity on GitHub.
 
-[https://github-war.herokuapp.com](https://github-war.herokuapp.com)
+See how you compare with your friends.
+
+Have a glance at the most popular repos. There are charts for the most popular
+programming languages.
+
+Try it out: [https://github-battle-demo.herokuapp.com](https://github-battle-demo.herokuapp.com)
