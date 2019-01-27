@@ -1,17 +1,17 @@
-import axios from 'axios'
-
 async function getProfile (username) {
-  const profile = await axios.get(`https://api.github.com/users/${username}`)
+  const response = await fetch(`https://api.github.com/users/${username}`);
 
-  return profile.data
+  return response.json();
 }
 
-function getRepos (username) {
-    return axios.get(`https://api.github.com/users/${username}/repos?per_page=100`)
+async function getRepos (username) {
+  const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+
+  return response.json();
 }
 
 function getStarCount (repos) {
-    return repos.data.reduce((count, repo) => (
+    return repos.reduce((count, repo) => (
         count + repo.stargazers_count), 0)
 }
 
@@ -29,6 +29,7 @@ async function getUserData(player) {
     getProfile(player),
     getRepos(player),
   ])
+
   return {
     profile,
     score: calculateScore(profile, repos),
@@ -46,11 +47,14 @@ export async function battle(players) {
     ? results
     : sortPlayers(results)
 }
+
 export async function fetchPopularRepos(language) {
   const encodedURI = window.encodeURI(`https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`)
 
-  const repos = await axios.get(encodedURI)
+  const response = await fetch(encodedURI)
     .catch(handleError)
 
-  return repos.data.items
+  const repos = await response.json()
+
+  return repos.items;
 }
