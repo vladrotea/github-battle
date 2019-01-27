@@ -1,10 +1,44 @@
 module.exports = {
-  "extends": "standard"
-  "rules": {
-	"react/jsx-filename-extension": [
-	  1,
-	  {
-		"extensions": [".js", ".jsx"]
-	  }
-	],
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            2
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    },
+    "settings": {
+        "react": {
+          "pragma": "React",
+          "version": "latest"
+        }
+  },
 };
